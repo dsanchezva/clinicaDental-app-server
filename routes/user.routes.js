@@ -1,4 +1,4 @@
-const User = require("../models/User.model");
+const Usuario = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
@@ -13,7 +13,7 @@ router.post('/login', async (req, res, next) => {
         return
     }
     try {
-        const user = await User.findOne({username: username})
+        const user = await Usuario.findOne({username: username})
 
         if(!user) {
             res.status(400).json({message:'Usuario no escontrado'})
