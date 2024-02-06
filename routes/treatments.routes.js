@@ -8,14 +8,14 @@ const router = require("express").Router();
 
 //POST 'api/treatments/create', Crear un nuevo tratamiento 
 router.post('/create', isValidToken, async (req, res, next) => {
-   const { name , description } = req.body
+   const { name , description, imgUrl } = req.body
     // controlar que todos los campos estan rellenados
    if (!name || !description) {
     res.status(400).json({errorMessage: "Hay que rellenar todos los campos"})
     return
    }
    try {
-    await Treatment.create({name, description})
+    await Treatment.create({name, description, imgUrl})
     res.status(200).json({message: 'Tratamiento creado'})
 
    } catch (err) {
@@ -63,6 +63,7 @@ router.patch('/:treatmentId/editTreatmentPic', isValidToken, async (req, res, ne
 //DELETE 'api/treatments/:treatmentId/delete' => borrar el tratamiento de la base de datos
 router.delete('/:treatmentId/delete', isValidToken, async (req, res, next) => {
 const treatmentId = req.params.treatmentId
+console.log(treatmentId)
 try {
     await Treatment.findByIdAndDelete(treatmentId)
     res.status(200).json({message: 'Tratamiento borrado'})

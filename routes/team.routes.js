@@ -6,13 +6,14 @@ const router = require("express").Router();
 
 //POST 'api/team/create' => Crea un nuevo miembro del equipo
 router.post('/create', isValidToken, async (req, res, next) => { 
-    const {name, description} = req.body
+    const {name, description, imgUrl} = req.body
+    console.log(req.body)
     if(!name || !description) {
         res.status(404).json( {errorMessage: 'Hay que rellenar todos los campos'})
         return
     }
     try {
-        await Team.create({name, description})
+        await Team.create({name, description, imgUrl})
         res.status(200).json({message: 'Miembro de equipo creado correctamente'})
     } catch(err) {
         next(err);
@@ -61,7 +62,7 @@ router.patch('/:teamId/editTeamPic', isValidToken, async (req, res, next) => {
 //DELETE 'api/team/:teamId/delete
 router.delete('/:teamId/delete', isValidToken, async (req, res, next) => {
     const teamId = req.params.teamId
-
+    console.log(teamId)
     try {
         await Team.findByIdAndDelete(teamId)
         res.status(200).json({message: 'Miembro del equipo borrado'})
